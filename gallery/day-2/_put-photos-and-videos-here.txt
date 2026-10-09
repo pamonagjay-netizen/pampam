@@ -1,0 +1,1 @@
+Put this day's photos (.jpg) and videos (.mp4) in this folder, then run update-gallery.bat.
