@@ -1,0 +1,385 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
+  <title>Meet the Campus Leadership - ISUFST San Enrique Campus</title>
+  <script>if('IntersectionObserver' in window)document.documentElement.classList.add('js')</script>
+  <style>
+:root{--abyss:#060f26;--navy:#0b2a66;--royal:#2b63d9;--gold:#e0b95a;--gold-lt:#f3dc94;--pearl:#eef2fb;--muted:#a9b9dc;
+--display:"Bricolage Grotesque","Segoe UI",system-ui,sans-serif;--body:Figtree,"Segoe UI",system-ui,sans-serif;
+--slab:0 2px 0 #17408f,0 4px 0 #10316f,0 6px 0 #0b2455,0 24px 32px -10px rgba(0,0,0,.65)}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;min-height:100vh;font-family:var(--body);color:var(--pearl);background:var(--abyss);-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--gold);outline-offset:3px}
+
+/* =====================================================================
+   REALISTIC "4D" BACKGROUND — no photo, fully generated:
+   deep-water gradient -> sun rays -> moving caustic light -> swimming fish
+   -> glossy bubbles & plankton -> deeper as you scroll -> vignette + grain.
+   Layers move at different speeds with mouse + scroll (3D parallax) and
+   animate over time (4th dimension).
+   ===================================================================== */
+:root{--caus:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='640' height='640'><filter id='c' x='0' y='0' width='100%25' height='100%25' color-interpolation-filters='sRGB'><feTurbulence type='fractalNoise' baseFrequency='.007 .011' numOctaves='3' seed='7' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .78  0 0 0 0 .96  0 0 0 0 1  1 0 0 0 0'/><feComponentTransfer><feFuncA type='table' tableValues='0 0 0 0 0 0 0 0 0 .2 1 .2 0 0 0 0 0 0 0'/></feComponentTransfer></filter><rect width='100%25' height='100%25' filter='url(%23c)'/></svg>")}
+.scene{position:fixed;inset:0;z-index:-1;overflow:hidden;pointer-events:none;--px:0;--py:0;--sy:0;
+  background:radial-gradient(110% 70% at 50% -12%,#2aa3c9 0%,#127aa8 20%,#0b4f8c 42%,#082f6b 65%,#051a45 85%,#030d28 100%)}
+.scene .l{position:absolute;inset:-6%;will-change:transform;transform:translate3d(calc(var(--px)*-20px),calc(var(--py)*-12px + var(--sy)*-70px),0)}
+.scene .l.far{transform:translate3d(calc(var(--px)*-7px),calc(var(--py)*-4px + var(--sy)*-25px),0)}
+.scene .l.near{transform:translate3d(calc(var(--px)*-34px),calc(var(--py)*-20px + var(--sy)*-120px),0)}
+.scene .fx{position:absolute;inset:0}
+.scene .rays{inset:-25% -10% 20% -10%;background:repeating-conic-gradient(from 168deg at 50% 0%,rgba(190,240,255,.34) 0 2.2deg,transparent 2.2deg 7.5deg,rgba(190,240,255,.16) 7.5deg 9deg,transparent 9deg 13deg);
+  -webkit-mask-image:radial-gradient(circle 95vmax at 50% 0%,#000 0%,transparent 100%);mask-image:radial-gradient(circle 95vmax at 50% 0%,#000 0%,transparent 100%);
+  filter:blur(9px);mix-blend-mode:screen;opacity:.55;transform-origin:50% 0%;animation:sway 18s ease-in-out infinite alternate}
+@keyframes sway{from{transform:rotate(-3deg);opacity:.38}to{transform:rotate(3deg);opacity:.62}}
+.scene .causwrap{overflow:hidden;mix-blend-mode:screen;-webkit-mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 45%,transparent 85%);mask-image:linear-gradient(180deg,#000 0%,rgba(0,0,0,.55) 45%,transparent 85%)}
+.scene .caus{position:absolute;background:var(--caus);will-change:transform}
+.scene .caus.a{left:-640px;top:-640px;right:0;bottom:0;background-size:640px 640px;opacity:.42;animation:cA 70s linear infinite}
+.scene .caus.b{left:0;top:0;right:-960px;bottom:-960px;background-size:960px 960px;opacity:.28;animation:cB 110s linear infinite}
+@keyframes cA{to{transform:translate3d(640px,640px,0)}}
+@keyframes cB{to{transform:translate3d(-960px,-960px,0)}}
+.scene .surface{background:radial-gradient(70% 18% at 50% 0%,rgba(220,250,255,.55),transparent 75%);mix-blend-mode:screen;animation:shimmer 6s ease-in-out infinite alternate}
+@keyframes shimmer{from{opacity:.65}to{opacity:1}}
+.scene .fish{position:absolute;left:0;top:var(--y);width:var(--w);height:calc(var(--w)*.4);opacity:var(--o);filter:blur(var(--b));
+  background:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 40'><path d='M2 20C20 2 52 2 74 16L98 4V36L74 24C52 38 20 38 2 20Z' fill='%2312406f'/><circle cx='16' cy='17' r='2' fill='%23bfe8ff'/></svg>") center/contain no-repeat;
+  transform:scaleX(var(--dir));animation:swim var(--d) linear var(--dl) infinite}
+@keyframes swim{0%{translate:var(--from) 0}25%{translate:calc(var(--from) + (var(--to) - var(--from))*.25) -14px}50%{translate:calc(var(--from) + (var(--to) - var(--from))*.5) 8px}75%{translate:calc(var(--from) + (var(--to) - var(--from))*.75) -10px}100%{translate:var(--to) 0}}
+.scene .bb{position:absolute;display:block;left:var(--x);bottom:-10vh;width:var(--s);height:var(--s);border-radius:50%;opacity:0;
+  background:radial-gradient(circle at 30% 26%,rgba(255,255,255,.95) 0 7%,rgba(255,255,255,.28) 16%,rgba(170,225,255,.07) 55%,rgba(170,225,255,.22) 80%,rgba(255,255,255,.6) 100%);
+  box-shadow:inset 0 0 0 1px rgba(255,255,255,.28),0 0 8px rgba(160,225,255,.25);filter:blur(var(--b));animation:bb var(--d) linear var(--dl) infinite}
+.scene .bb.pk{background:radial-gradient(circle,rgba(220,245,255,.9),rgba(220,245,255,0) 70%);box-shadow:none}
+@keyframes bb{0%{opacity:0;transform:translate3d(0,0,0)}10%{opacity:var(--o)}25%{transform:translate3d(var(--w),-28vh,0)}50%{transform:translate3d(calc(var(--w)*-1),-56vh,0)}75%{transform:translate3d(var(--w),-84vh,0)}90%{opacity:var(--o)}100%{opacity:0;transform:translate3d(0,-116vh,0)}}
+.scene .deep{background:#020816;opacity:calc(var(--sy)*.5)}
+.scene .vig{background:radial-gradient(120% 95% at 50% 35%,transparent 50%,rgba(0,0,0,.6) 100%)}
+.scene .grain{opacity:.08;mix-blend-mode:overlay;background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>")}
+.gal .scene{visibility:hidden}
+
+/* 3D tilt (driven by the small script at the bottom) */
+.tilt{--rx:0deg;--ry:0deg;--lift:0px;transform:perspective(1000px) rotateX(var(--rx)) rotateY(var(--ry)) translateY(var(--lift));transform-style:preserve-3d;transition:transform .6s cubic-bezier(.2,.7,.2,1)}
+.tilt.tilting{--lift:-6px;transition:transform .12s ease-out}
+
+/* compact glass header */
+.hero{position:sticky;top:0;z-index:30;border-bottom:1px solid rgba(224,185,90,.32);background:linear-gradient(180deg,rgba(12,34,84,.74),rgba(8,20,52,.58));
+  backdrop-filter:blur(14px) saturate(1.4);-webkit-backdrop-filter:blur(14px) saturate(1.4);box-shadow:inset 0 1px 0 rgba(255,255,255,.14),0 12px 30px -14px rgba(0,0,0,.7)}
+.hero-in{max-width:1100px;margin:0 auto;padding:9px 20px;display:flex;align-items:center;gap:14px}
+.hero-logo{width:46px;height:46px;object-fit:contain;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+.hero-text{flex:1;min-width:0}
+.hero h1{margin:0;font:800 clamp(16px,2.4vw,23px)/1.1 var(--display);letter-spacing:-.02em;text-shadow:0 2px 0 #0b2455,0 4px 14px rgba(0,0,0,.45)}
+.hero .campus{margin:3px 0 0;font:600 12.5px/1.2 var(--body);color:var(--gold-lt)}
+.hero .uni{margin:1px 0 0;font-size:11px;line-height:1.2;color:var(--muted)}
+.acq-open{flex:none;border:0;border-radius:11px;padding:9px 16px;cursor:pointer;font:700 13px var(--display);color:#2a1d02;background:linear-gradient(180deg,var(--gold-lt),var(--gold));box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 0 #a67c1e,0 10px 16px rgba(0,0,0,.4);transition:transform .12s,box-shadow .12s}
+.acq-open:hover{transform:translateY(-2px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 5px 0 #a67c1e,0 14px 20px rgba(0,0,0,.4)}
+.acq-open:active{transform:translateY(3px);box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 0 0 #a67c1e,0 4px 8px rgba(0,0,0,.4)}
+
+/* tiers: a gold spine connects each rank to the next */
+main{max-width:1100px;margin:0 auto;padding:44px 20px 40px}
+.tier-head{position:relative;display:flex;flex-direction:column;align-items:center;gap:4px;padding-top:76px;text-align:center;text-shadow:0 2px 16px rgba(0,0,0,.7)}
+.tier:first-child .tier-head{padding-top:0}
+.tier:not(:first-child) .tier-head::before{content:"";position:absolute;top:0;left:50%;width:2px;height:52px;margin-left:-1px;background:linear-gradient(transparent,var(--gold))}
+.tier:not(:first-child) .tier-head::after{content:"";position:absolute;top:52px;left:50%;width:12px;height:12px;margin-left:-6px;border-radius:50%;background:var(--abyss);border:3px solid var(--gold);box-shadow:0 0 14px rgba(224,185,90,.6)}
+.tier-head h2{margin:0;font:700 clamp(22px,3vw,30px)/1.1 var(--display);letter-spacing:-.01em}
+.tier-head p{margin:0;font-size:14px;color:#c3d0ee}
+.officials-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:34px 30px;margin-top:30px}
+
+/* card */
+.card{position:relative;width:var(--w,220px);max-width:100%}
+.card::after{content:"";position:absolute;left:10%;right:10%;bottom:-20px;height:24px;border-radius:50%;background:radial-gradient(50% 50% at 50% 50%,rgba(0,0,0,.55),transparent);filter:blur(7px);z-index:-1;pointer-events:none}
+.face{position:relative;aspect-ratio:4/5;overflow:hidden;border-radius:18px;background:linear-gradient(160deg,#16337a,#0a1c44);box-shadow:var(--slab)}
+.face img{width:100%;height:100%;object-fit:cover;object-position:center 20%;display:block}
+.face::before{content:"";position:absolute;inset:0;border-radius:inherit;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);background:linear-gradient(120deg,rgba(255,255,255,.16),rgba(255,255,255,0) 32%);z-index:2;pointer-events:none}
+.face::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at var(--mx,50%) var(--my,0%),rgba(255,255,255,.26),transparent 55%);opacity:0;transition:opacity .3s;pointer-events:none}
+.card.tilting .face::after{opacity:1}
+.plate{position:absolute;left:10px;right:10px;bottom:10px;transform:translateZ(34px);padding:10px 13px 11px;border-radius:12px;background:rgba(7,18,48,.64);backdrop-filter:blur(14px) saturate(1.3);border:1px solid rgba(255,255,255,.15);box-shadow:0 16px 24px -8px rgba(0,0,0,.6)}
+.plate h3{margin:0;font:700 16px/1.2 var(--display)}
+.plate p{margin:3px 0 0;font-size:13px;line-height:1.35;color:var(--gold-lt)}
+.plate p.also{margin-top:1px;color:var(--muted)}
+.card.top .face{box-shadow:0 2px 0 #e0b95a,0 4px 0 #b98f33,0 6px 0 #7e5c17,0 28px 40px -10px rgba(0,0,0,.7)}
+.card.top .plate h3{font-size:19px}
+footer{padding:22px 16px 30px;text-align:center;font-size:13px;color:#b9c8e8;text-shadow:0 1px 8px rgba(0,0,0,.7)}
+footer p{margin:0}
+
+/* scroll reveal (time dimension): only used when JS + IntersectionObserver exist */
+@keyframes rise{from{opacity:0;translate:0 34px;scale:.96}to{opacity:1;translate:0 0;scale:1}}
+.js .card:not(.in),.js .tier-head:not(.in){opacity:0}
+.card.in,.tier-head.in{animation:rise .9s cubic-bezier(.2,.7,.2,1) both;animation-delay:var(--dl,0ms)}
+
+@media(max-width:560px){.hero-in{padding:8px 14px;gap:10px}.hero-logo{width:36px;height:36px}.hero .uni{display:none}.hero h1{font-size:14.5px}.hero .campus{font-size:11.5px}.acq-open{padding:7px 10px;font-size:11.5px;max-width:92px;line-height:1.15}}
+
+/* =====================================================================
+   GALLERY  (simple: Day 1 / Day 2 / All)
+   ===================================================================== */
+#acq{position:fixed;inset:0;z-index:9999;display:none;overflow:auto;color:var(--pearl);font-family:var(--body);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(90% 55% at 50% -10%,rgba(42,163,201,.40),transparent 70%),linear-gradient(180deg,rgba(6,28,70,.80),rgba(3,12,38,.92)),var(--caus) 0 0/760px,#06204f}
+#acq.open{display:block;animation:acqIn .35s ease}
+@keyframes acqIn{from{opacity:0}to{opacity:1}}
+.acq-head{position:sticky;top:0;z-index:5;display:flex;align-items:center;gap:12px;padding:10px 24px;background:rgba(8,20,52,.62);backdrop-filter:blur(14px) saturate(1.3);-webkit-backdrop-filter:blur(14px) saturate(1.3);border-bottom:1px solid rgba(255,255,255,.1)}
+.acq-head img{width:44px;height:44px;object-fit:contain;flex:none;filter:drop-shadow(0 4px 6px rgba(0,0,0,.5))}
+.acq-head h1{margin:0;font:700 19px/1.2 var(--display)}
+.acq-crumb{margin-top:2px;font-size:12.5px;color:#9ec0ff;display:flex;align-items:center;gap:7px}
+.acq-crumb button{all:unset;cursor:pointer;color:#9ec0ff}
+.acq-crumb button:hover{text-decoration:underline}
+.acq-crumb i{font-style:normal;color:var(--muted)}
+.acq-crumb b{color:var(--pearl);font-weight:600}
+.acq-close{margin-left:auto;white-space:nowrap;flex:none;border:1px solid rgba(255,255,255,.22);background:rgba(255,255,255,.08);color:var(--pearl);border-radius:999px;padding:9px 18px;font:500 13px var(--body);cursor:pointer;transition:background .2s}
+.acq-close:hover{background:rgba(255,255,255,.2)}
+.acq-page{max-width:1180px;margin:0 auto;padding:22px 24px 72px}
+.acq-sub{margin:0;text-align:center;font-size:14px;color:#c3d0ee;text-shadow:0 1px 8px rgba(0,0,0,.6)}
+.acq-tabs{display:flex;justify-content:center;width:max-content;max-width:100%;margin:16px auto 10px;padding:5px;gap:4px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);box-shadow:inset 0 1px 0 rgba(255,255,255,.12),0 14px 24px -12px rgba(0,0,0,.6)}
+.acq-tab{border:0;cursor:pointer;border-radius:999px;padding:9px 20px;background:transparent;color:var(--pearl);font:700 14px var(--display);display:flex;align-items:center;gap:8px;transition:background .2s,color .2s,transform .12s}
+.acq-tab:hover{background:rgba(255,255,255,.12)}
+.acq-tab em{font:600 11.5px var(--body);font-style:normal;padding:2px 8px;border-radius:99px;background:rgba(255,255,255,.14)}
+.acq-tab.on{color:#2a1d02;background:linear-gradient(180deg,var(--gold-lt),var(--gold));box-shadow:inset 0 1px 0 rgba(255,255,255,.7),0 3px 0 #a67c1e,0 8px 14px rgba(0,0,0,.35)}
+.acq-tab.on em{background:rgba(42,29,2,.16)}
+.acq-info{margin:0 0 20px;text-align:center;font-size:13px;color:var(--gold-lt)}
+@keyframes pop{from{opacity:0;translate:0 18px}to{opacity:1;translate:0 0}}
+.acq-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:20px}
+.acq-item{position:relative;display:block;width:100%;aspect-ratio:4/3;padding:0;border:0;background:#0d2252;cursor:pointer;border-radius:14px;overflow:hidden;box-shadow:var(--slab);animation:pop .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*35ms)}
+.acq-item::after{content:"";position:absolute;inset:0;border-radius:inherit;pointer-events:none;box-shadow:inset 0 0 0 1px rgba(255,255,255,.16);background:linear-gradient(120deg,rgba(255,255,255,.14),rgba(255,255,255,0) 30%)}
+.acq-item .ph{position:absolute;inset:0;background:#000}
+.acq-item .ph img,.acq-item .ph video{width:100%;height:100%;object-fit:cover;display:block;opacity:0;transition:opacity .5s,transform .7s cubic-bezier(.2,.7,.2,1)}
+.acq-item .ph img.ld,.acq-item .ph video.ld{opacity:1}
+.acq-item:hover .ph img,.acq-item:hover .ph video{transform:scale(1.05)}
+.acq-item .vid{position:absolute;left:50%;top:50%;margin:-24px 0 0 -24px;z-index:1;width:48px;height:48px;border-radius:50%;background:rgba(7,18,48,.7);backdrop-filter:blur(6px);border:1px solid rgba(255,255,255,.35);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;padding-left:3px;box-shadow:0 8px 18px rgba(0,0,0,.45);transition:transform .25s,background .25s}
+.acq-item:hover .vid{transform:scale(1.1);background:rgba(224,185,90,.9);color:#2a1d02}
+.acq-item:has(.vid) .ph{background:linear-gradient(160deg,#16337a,#0a1c44)}
+.acq-item .tag{position:absolute;left:10px;top:10px;z-index:1;background:rgba(7,18,48,.72);backdrop-filter:blur(8px);border:1px solid rgba(255,255,255,.16);font:600 11px var(--body);padding:3px 10px;border-radius:99px}
+.acq-item:focus-visible{outline:2px solid var(--gold);outline-offset:5px}
+.acq-msg{grid-column:1/-1;text-align:center;padding:60px 10px;color:var(--muted);font-size:14px;line-height:1.6}
+@media(max-width:600px){.acq-page{padding:16px 12px 48px}.acq-head{padding:8px 12px}.acq-head h1{font-size:16px}.acq-head img{width:36px;height:36px}.acq-grid{grid-template-columns:1fr 1fr;gap:12px}.acq-tab{padding:8px 14px;font-size:13px}.acq-close{padding:8px 13px}}
+@media(max-width:380px){.acq-grid{grid-template-columns:1fr}}
+
+/* viewer */
+.acq-lb{position:fixed;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;background:radial-gradient(90% 80% at 50% 40%,rgba(14,28,66,.97),rgba(4,8,20,.98));backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s}
+.acq-lb.on{opacity:1;visibility:visible}
+.acq-stage{position:absolute;inset:14px 74px 58px;display:flex;align-items:center;justify-content:center}
+.acq-fr{display:flex;max-width:100%;max-height:100%;border-radius:16px;overflow:hidden;box-shadow:0 0 0 1px rgba(255,255,255,.14),0 30px 60px rgba(0,0,0,.6);animation:acqPop .5s cubic-bezier(.2,.7,.2,1)}
+@keyframes acqPop{from{opacity:0;transform:scale(.97)}to{opacity:1;transform:none}}
+.acq-fr .ph{display:flex}
+.acq-fr .ph img,.acq-fr .ph video{display:block;max-width:calc(100vw - 148px);max-height:calc(100vh - 100px);object-fit:contain;cursor:pointer}
+.acq-lbtn{position:absolute;z-index:2;border:1px solid rgba(255,255,255,.18);background:rgba(255,255,255,.1);color:#fff;width:44px;height:44px;border-radius:50%;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px);transition:background .2s,transform .2s}
+.acq-lbtn:hover{background:rgba(255,255,255,.24);transform:scale(1.06)}
+.acq-lbtn:focus-visible{outline:2px solid var(--gold);outline-offset:2px}
+.acq-lbtn.x{top:12px;right:14px}.acq-lbtn.p{left:14px;top:50%;margin-top:-22px}.acq-lbtn.n{right:14px;top:50%;margin-top:-22px}
+.acq-lbar{position:absolute;left:0;right:0;bottom:14px;z-index:2;display:flex;align-items:center;justify-content:center;gap:14px;color:var(--muted);font-size:13px}
+.acq-play{border:1px solid rgba(255,255,255,.35);background:transparent;color:#fff;border-radius:999px;padding:6px 14px;font:500 13px var(--body);cursor:pointer}
+.acq-play.on{background:var(--gold);border-color:var(--gold);color:#2a1d02}
+@media(max-width:700px){.acq-stage{inset:56px 4px 64px}.acq-fr .ph img,.acq-fr .ph video{max-width:calc(100vw - 8px);max-height:calc(100vh - 130px)}.acq-lbtn.p{left:6px}.acq-lbtn.n{right:6px}}
+
+@media(prefers-reduced-motion:reduce){
+  #acq.open,.acq-fr,.acq-item,.card.in,.tier-head.in{animation:none}
+  .scene *{animation:none!important}.scene .bokeh{display:none}
+  .tilt,.acq-open,.acq-item .ph img,.acq-item .ph video{transition:none}
+}
+</style>
+</head>
+<body>
+
+<!-- ============ REALISTIC 4D BACKGROUND ============ -->
+<div class="scene" id="scene" aria-hidden="true">
+  <div class="fx rays"></div>
+  <div class="fx causwrap"><div class="caus a"></div><div class="caus b"></div></div>
+  <div class="fx surface"></div>
+  <div class="l far fishes"></div>
+  <div class="l bubbles"></div>
+  <div class="l near bubbles-near"></div>
+  <div class="fx deep"></div>
+  <div class="fx vig"></div>
+  <div class="fx grain"></div>
+</div>
+
+
+<!-- ============ COMPACT HEADER ============ -->
+<header class="hero"><div class="hero-in">
+<img class="hero-logo" src="logos/isufst-logo.png" alt="ISUFST logo" onerror="this.style.display='none'">
+<div class="hero-text"><h1>Meet the Campus Leadership</h1><p class="campus">ISUFST San Enrique Campus</p><p class="uni">Iloilo State University of Fisheries Science and Technology</p></div>
+<button class="acq-open" id="acqOpenBtn" type="button">Acquaintance gallery</button>
+</div></header>
+<main>
+<section class="tier"><div class="tier-head"><h2>University Level</h2></div><div class="officials-grid"><article class="card tilt top" style="--w:300px"><div class="face"><img src="7.png" alt="Nordy D. Siason Jr., EdD, CESO VI, University President" loading="lazy"></div><div class="plate"><h3>Nordy D. Siason Jr., EdD, CESO VI</h3><p>University President</p></div></article></div></section>
+<section class="tier"><div class="tier-head"><h2>Campus Level</h2></div><div class="officials-grid"><article class="card tilt" style="--w:262px"><div class="face"><img src="4.png" alt="Dr. Michael B. Dizon, Campus Administrator" loading="lazy"></div><div class="plate"><h3>Dr. Michael B. Dizon</h3><p>Campus Administrator</p></div></article><article class="card tilt" style="--w:262px"><div class="face"><img src="12.png" alt="Mrs. Melby P. Parreño, Administrative Officer" loading="lazy"></div><div class="plate"><h3>Mrs. Melby P. Parreño</h3><p>Administrative Officer</p></div></article></div></section>
+<section class="tier"><div class="tier-head"><h2>Deans</h2><p>CICI, HM, AG, BSOA and EDU</p></div><div class="officials-grid"><article class="card tilt" style="--w:240px"><div class="face"><img src="6.png" alt="Dr. Wenda D. Panes, Dean, College of Informatics &amp; Computer Innovation (CICI)" loading="lazy"></div><div class="plate"><h3>Dr. Wenda D. Panes</h3><p>Dean, College of Informatics &amp; Computer Innovation (CICI)</p></div></article><article class="card tilt" style="--w:240px"><div class="face"><img src="9.png" alt="Dr. Noli L. Gerona, Dean, Agriculture (AG)" loading="lazy"></div><div class="plate"><h3>Dr. Noli L. Gerona</h3><p>Dean, Agriculture (AG)</p></div></article><article class="card tilt" style="--w:240px"><div class="face"><img src="11.png" alt="Dr. Janice H. Ching, Dean, Office Administration (BSOA)" loading="lazy"></div><div class="plate"><h3>Dr. Janice H. Ching</h3><p>Dean, Office Administration (BSOA)</p><p class="also">and College of Business Management (HM)</p></div></article><article class="card tilt" style="--w:240px"><div class="face"><img src="10.png" alt="Dr. Rene T. Estomo, Dean, Education (EDU)" loading="lazy"></div><div class="plate"><h3>Dr. Rene T. Estomo</h3><p>Dean, Education (EDU)</p></div></article></div></section>
+<section class="tier"><div class="tier-head"><h2>CICI Faculty and Staff</h2><p>College of Informatics &amp; Computer Innovation</p></div><div class="officials-grid"><article class="card tilt" style="--w:212px"><div class="face"><img src="5.png" alt="Instr. Dave Allan Tagacay, Instructor" loading="lazy"></div><div class="plate"><h3>Instr. Dave Allan Tagacay</h3><p>Instructor</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="6.png" alt="Dr. Wenda D. Panes, Dean and faculty" loading="lazy"></div><div class="plate"><h3>Dr. Wenda D. Panes</h3><p>Dean and faculty</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="1.png" alt="Dr. Weena J. Bulnes, Faculty" loading="lazy"></div><div class="plate"><h3>Dr. Weena J. Bulnes</h3><p>Faculty</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="3.png" alt="Dr. Dythne P. Dacudao, Faculty" loading="lazy"></div><div class="plate"><h3>Dr. Dythne P. Dacudao</h3><p>Faculty</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="2.png" alt="Dr. Ian Sugatan, Faculty" loading="lazy"></div><div class="plate"><h3>Dr. Ian Sugatan</h3><p>Faculty</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="8.png" alt="Dr. Analiza G. Alingalan, Faculty" loading="lazy"></div><div class="plate"><h3>Dr. Analiza G. Alingalan</h3><p>Faculty</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="15.png" alt="Instr. Ivan Selvestre, Instructor" loading="lazy"></div><div class="plate"><h3>Instr. Ivan Selvestre</h3><p>Instructor</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="13.png" alt="Andrea P. Delos Santos, Staff" loading="lazy"></div><div class="plate"><h3>Andrea P. Delos Santos</h3><p>Staff</p></div></article><article class="card tilt" style="--w:212px"><div class="face"><img src="14.png" alt="Jay Michael O. Borcillo, Staff" loading="lazy"></div><div class="plate"><h3>Jay Michael O. Borcillo</h3><p>Staff</p></div></article></div></section>
+</main>
+<footer><p>ITPE3 &ndash; Web Systems Technologies | Laboratory Exercise No. 1 | AY 2026-2027</p></footer>
+
+<!-- ================= GALLERY (Day 1 / Day 2 / All) ================= -->
+<div id="acq" role="dialog" aria-label="Photo Gallery">
+  <div class="acq-head">
+    <img src="logos/isufst-logo.png" alt="ISUFST logo" decoding="async">
+    <div>
+      <h1>Welcome To Gallery</h1>
+      <div class="acq-crumb"><button type="button" id="acqHome">Home</button><i>/</i><b>Gallery</b></div>
+    </div>
+    <button class="acq-close" id="acqBack" type="button">&larr; Back to site</button>
+  </div>
+
+  <div class="acq-page">
+    <p class="acq-sub">Photos and videos from ISUFST San Enrique Campus.</p>
+    <div class="acq-tabs" id="acqTabs" role="tablist" aria-label="Gallery days"></div>
+    <p class="acq-info" id="acqInfo"></p>
+    <div class="acq-grid" id="acqGrid"></div>
+  </div>
+
+  <div class="acq-lb" id="acqLb" role="dialog" aria-label="Photo viewer">
+    <button class="acq-lbtn x" id="acqX" type="button" aria-label="Close">&#10005;</button>
+    <button class="acq-lbtn p" id="acqP" type="button" aria-label="Previous">&#10094;</button>
+    <button class="acq-lbtn n" id="acqN" type="button" aria-label="Next">&#10095;</button>
+    <div class="acq-stage" id="acqSlot"></div>
+    <div class="acq-lbar"><span id="acqCount"></span><button class="acq-play" id="acqAuto" type="button">&#9654; Auto play</button></div>
+  </div>
+</div>
+
+<script>
+(function(){
+  /* =====================================================================
+     DAYS — each day points to a FOLDER inside  gallery/
+       gallery/day-1/   ->  Day 1
+       gallery/day-2/   ->  Day 2
+     Put photos (.jpg .png .webp ...) and videos (.mp4 .webm ...) in a folder,
+     then run update-gallery.bat (or use PHP hosting) and they appear automatically.
+     ===================================================================== */
+  var DAYS=[
+    {key:'day-1', label:'Day 1', folder:'day-1'},
+    {key:'day-2', label:'Day 2', folder:'day-2'}
+  ];
+
+  var $=function(i){return document.getElementById(i)},acq=$('acq'),tab='day-1',view=[],meta=[],idx=0,timer,playing=false,lbOpen=false,ready=false,loading=null;
+  var isVid=function(p){return /\.(mp4|webm|ogg|mov|m4v)(\?.*)?$/i.test(p)};
+  var esc=function(t){return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/"/g,'&quot;')};
+  var FILE=/\.(jpe?g|png|webp|gif|avif|mp4|webm|mov|m4v)$/i,nat=function(a,b){return a.localeCompare(b,undefined,{numeric:true,sensitivity:'base'})};
+
+  function badge(arr){var v=arr.filter(isVid).length,p=arr.length-v;
+    return p+' photo'+(p===1?'':'s')+(v?', '+v+' video'+(v===1?'':'s'):'')}
+
+  /* read what is inside gallery/<folder>/ — tries 3 ways so it runs on any setup:
+       1) gallery.php  (PHP hosting: XAMPP, InfinityFree ...)   2) the server's folder listing
+       3) gallery/manifest.js (made by update-gallery.bat — works even when index.html is opened by double-click) */
+  function fromPHP(f){return fetch('gallery.php?f='+encodeURIComponent(f),{cache:'no-store'})
+    .then(function(r){if(!r.ok)throw 0;return r.json()}).then(function(j){return [].concat(j.files||[])}).catch(function(){return []})}
+  function fromListing(base){return fetch(base,{cache:'no-store'}).then(function(r){if(!r.ok)throw 0;return r.text()}).then(function(t){
+    var out=[],re=/href="([^"?#]+)"/gi,m;
+    while((m=re.exec(t))){var seg=m[1].split('/').pop();try{seg=decodeURIComponent(seg)}catch(e){}if(FILE.test(seg))out.push(seg)}
+    return out}).catch(function(){return []})}
+  function fromManifest(f){return new Promise(function(res){
+    if(window.CAMPUSMEET_GALLERY)return res([].concat(window.CAMPUSMEET_GALLERY[f]||[]));
+    var sc=document.createElement('script');sc.src='gallery/manifest.js?'+Date.now();
+    sc.onload=function(){res([].concat((window.CAMPUSMEET_GALLERY||{})[f]||[]))};sc.onerror=function(){res([])};document.head.appendChild(sc)})}
+  function list(folder){var base='gallery/'+encodeURIComponent(folder)+'/';
+    return fromPHP(folder).then(function(l){return l.length?l:fromListing(base)})
+      .then(function(l){return l.length?l:fromManifest(folder)})
+      .then(function(l){return l.filter(function(n){return FILE.test(n)}).sort(nat).map(function(n){return base+encodeURIComponent(n)})})}
+
+  function load(){return loading||(loading=Promise.all(DAYS.map(function(d){return list(d.folder).then(function(l){d.media=l})})))}
+  function itemsFor(key){var out=[];DAYS.forEach(function(d){if(key==='all'||key===d.key)(d.media||[]).forEach(function(s){out.push({src:s,day:d.label})})});return out}
+
+  /* ---------- tabs ---------- */
+  function renderTabs(){var t=$('acqTabs');t.innerHTML='';
+    DAYS.concat([{key:'all',label:'All'}]).forEach(function(d){
+      var b=document.createElement('button');b.type='button';b.className='acq-tab'+(d.key===tab?' on':'');b.setAttribute('role','tab');b.setAttribute('aria-selected',d.key===tab);
+      b.innerHTML=esc(d.label)+(ready?'<em>'+itemsFor(d.key).length+'</em>':'');
+      b.onclick=function(){show(d.key)};t.appendChild(b)})}
+
+  /* ---------- grid ---------- */
+  function show(key){closeLb();tab=key;var g=$('acqGrid');renderTabs();
+    if(!ready){$('acqInfo').textContent='';g.innerHTML='<div class="acq-msg">Loading photos and videos&hellip;</div>';
+      load().then(function(){ready=true;show(tab)});return}
+    var items=itemsFor(key),day=DAYS.filter(function(d){return d.key===key})[0];
+    view=items.map(function(o){return o.src});meta=items;
+    $('acqInfo').textContent=(day?day.label:'All days')+' \u2014 '+badge(view);
+    g.innerHTML='';
+    if(!view.length){g.innerHTML='<div class="acq-msg">No photos or videos here yet.<br>Add files to <b>gallery/'+(day?esc(day.folder):'day-1</b> or <b>gallery/day-2')+'/</b>, then run <b>update-gallery.bat</b>.</div>'}
+    items.forEach(function(o,k){var src=o.src,b=document.createElement('button');b.type='button';b.className='acq-item tilt';b.dataset.tilt=5;b.style.setProperty('--i',Math.min(k,14));
+      b.setAttribute('aria-label','Open '+(isVid(src)?'video':'photo')+' '+(k+1)+' of '+view.length);
+      b.innerHTML='<span class="ph">'+(isVid(src)?'<video src="'+esc(src)+'#t=0.5" preload="metadata" muted playsinline></video>':'<img src="'+esc(src)+'" alt="'+esc(o.day)+' photo '+(k+1)+'" loading="lazy" decoding="async">')+'</span>'
+        +(isVid(src)?'<span class="vid">&#9654;</span>':'')+(key==='all'?'<span class="tag">'+esc(o.day)+'</span>':'');
+      var m=b.querySelector('img,video');m.addEventListener(isVid(src)?'loadeddata':'load',function(){m.classList.add('ld')});if(!isVid(src)&&m.complete)m.classList.add('ld');
+      b.onclick=function(){openLb(k)};g.appendChild(b)});
+    acq.scrollTop=0}
+
+  /* ---------- photo / video viewer ---------- */
+  function showLb(){clearTimeout(timer);var slot=$('acqSlot'),src=view[idx],el;slot.innerHTML='';
+    if(isVid(src)){el=document.createElement('video');el.src=src;el.controls=true;el.autoplay=true;el.playsInline=true;el.onended=function(){if(playing)step(1)}}
+    else{el=document.createElement('img');el.src=src;el.alt='';el.decoding='async';el.title='Click for next';el.onclick=function(){step(1)}}
+    var fr=document.createElement('div');fr.className='acq-fr';
+    var ph=document.createElement('div');ph.className='ph';ph.appendChild(el);fr.appendChild(ph);
+    slot.appendChild(fr);$('acqCount').textContent=(meta[idx]?meta[idx].day+' \u00B7 ':'')+(idx+1)+' / '+view.length;
+    var multi=view.length>1;$('acqP').style.display=$('acqN').style.display=$('acqAuto').style.display=multi?'flex':'none';
+    schedule()}
+  /* auto next: photos advance every 4 s, videos advance when they finish */
+  function schedule(){clearTimeout(timer);if(playing&&view.length>1&&!isVid(view[idx]))timer=setTimeout(function(){step(1)},4000)}
+  function setAuto(){var b=$('acqAuto');b.classList.toggle('on',playing);b.innerHTML=playing?'&#10074;&#10074; Pause':'&#9654; Auto play'}
+  function step(d){if(view.length>1){idx=(idx+view.length+d)%view.length;showLb()}}
+  function openLb(k){idx=k;lbOpen=true;$('acqLb').classList.add('on');showLb()}
+  function closeLb(){lbOpen=false;playing=false;setAuto();clearTimeout(timer);$('acqSlot').innerHTML='';$('acqLb').classList.remove('on')}
+  function closeAll(){closeLb();acq.classList.remove('open');document.documentElement.classList.remove('gal');document.body.style.overflow=''}
+  function back(){if(lbOpen)closeLb();else closeAll()}
+
+  $('acqOpenBtn').onclick=function(){acq.classList.add('open');document.documentElement.classList.add('gal');document.body.style.overflow='hidden';show(tab)};
+  $('acqBack').onclick=closeAll;$('acqHome').onclick=closeAll;
+  $('acqX').onclick=closeLb;$('acqP').onclick=function(){step(-1)};$('acqN').onclick=function(){step(1)};
+  $('acqAuto').onclick=function(){playing=!playing;setAuto();schedule()};
+  $('acqLb').addEventListener('click',function(e){if(e.target===this||e.target===$('acqSlot'))closeLb()});
+  var sx=null;
+  $('acqLb').addEventListener('touchstart',function(e){sx=e.touches[0].clientX},{passive:true});
+  $('acqLb').addEventListener('touchend',function(e){if(sx==null)return;var dx=e.changedTouches[0].clientX-sx;sx=null;if(Math.abs(dx)>50)step(dx<0?1:-1)});
+  document.addEventListener('keydown',function(e){if(!acq.classList.contains('open'))return;
+    if(e.key==='Escape'&&!document.fullscreenElement)back();
+    if(lbOpen){if(e.key==='ArrowRight')step(1);if(e.key==='ArrowLeft')step(-1)}});
+})();
+</script>
+
+<script>
+/* 3D tilt + background parallax + bokeh dust + scroll reveal */
+(function(){
+  var rm=matchMedia('(prefers-reduced-motion: reduce)'),cur=null,raf=0,sc=document.getElementById('scene');
+
+  /* swimming fish + rising bubbles + plankton (generated, so the CSS stays small) */
+  var R=Math.random;
+  if(!rm.matches){
+    var mob=innerWidth<700,fh=sc.querySelector('.fishes');
+    for(var i=0;i<(mob?4:7);i++){var f=document.createElement('i'),w=34+R()*90,dir=R()<.5?1:-1;f.className='fish';
+      f.style.cssText='--y:'+(8+R()*70).toFixed(0)+'%;--w:'+w.toFixed(0)+'px;--o:'+(.14+R()*.22).toFixed(2)+';--b:'+(w<60?2:1)+'px;--dir:'+dir+
+        ';--from:'+(dir>0?'-15vw':'115vw')+';--to:'+(dir>0?'115vw':'-15vw')+';--d:'+(38+R()*50).toFixed(0)+'s;--dl:-'+(R()*60).toFixed(0)+'s';
+      fh.appendChild(f)}
+    function bub(host,n,min,max){for(var i=0;i<n;i++){var b=document.createElement('i'),sz=min+R()*(max-min),pk=sz<7;b.className='bb'+(pk?' pk':'');
+      b.style.cssText='--x:'+(R()*100).toFixed(1)+'%;--s:'+sz.toFixed(0)+'px;--b:'+(sz>34?2.5:sz>16?.8:0)+'px;--o:'+(pk?.35+R()*.4:.45+R()*.4).toFixed(2)+
+        ';--d:'+(14+R()*20).toFixed(1)+'s;--dl:-'+(R()*30).toFixed(1)+'s;--w:'+(10+R()*34).toFixed(0)+'px';host.appendChild(b)}}
+    bub(sc.querySelector('.bubbles'),mob?14:30,3,22);
+    bub(sc.querySelector('.bubbles-near'),mob?3:6,28,64)}
+
+  /* tilt cards + mouse parallax */
+  function reset(el){el.classList.remove('tilting');el.style.setProperty('--rx','0deg');el.style.setProperty('--ry','0deg')}
+  document.addEventListener('pointermove',function(e){
+    if(e.pointerType!=='mouse'||rm.matches)return;
+    var el=e.target.closest&&e.target.closest('.tilt'),cx=e.clientX,cy=e.clientY;
+    if(cur&&cur!==el){reset(cur);cur=null}
+    cancelAnimationFrame(raf);
+    raf=requestAnimationFrame(function(){
+      sc.style.setProperty('--px',((cx/innerWidth-.5)*2).toFixed(3));
+      sc.style.setProperty('--py',((cy/innerHeight-.5)*2).toFixed(3));
+      if(!el)return;cur=el;
+      var r=el.getBoundingClientRect(),x=(cx-r.left)/r.width,y=(cy-r.top)/r.height,m=+el.dataset.tilt||9;
+      el.classList.add('tilting');
+      el.style.setProperty('--ry',((x-.5)*2*m).toFixed(2)+'deg');
+      el.style.setProperty('--rx',((.5-y)*2*m).toFixed(2)+'deg');
+      el.style.setProperty('--mx',(x*100).toFixed(1)+'%');
+      el.style.setProperty('--my',(y*100).toFixed(1)+'%');
+    });
+  },{passive:true});
+  document.documentElement.addEventListener('mouseleave',function(){if(cur){reset(cur);cur=null}});
+
+  /* scroll parallax (works on phones too) */
+  if(!rm.matches){var tk=0;addEventListener('scroll',function(){if(tk)return;tk=requestAnimationFrame(function(){tk=0;
+    var max=Math.max(1,document.documentElement.scrollHeight-innerHeight);sc.style.setProperty('--sy',Math.min(1,scrollY/max).toFixed(3))})},{passive:true})}
+
+  /* reveal cards as they scroll into view */
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(en){if(en.isIntersecting){en.target.classList.add('in');io.unobserve(en.target)}})},{threshold:.12,rootMargin:'0px 0px -6% 0px'});
+    document.querySelectorAll('.card,.tier-head').forEach(function(el){
+      var sib=el.parentNode.children,k=Array.prototype.indexOf.call(sib,el);el.style.setProperty('--dl',(k%5)*90+'ms');io.observe(el)})}
+})();
+</script>
+</body>
+</html>
